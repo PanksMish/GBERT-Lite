@@ -1,0 +1,79 @@
+# GBERT-Lite Configuration File
+
+# Model Configuration
+model:
+  name: "gbert-lite"
+  distilbert_model: "distilbert-base-uncased"
+  distilgpt2_model: "distilgpt2"
+  freeze_encoders: true
+  hidden_dim: 768
+  classifier_hidden_dim: 256
+  dropout: 0.1
+  max_length: 64
+
+# Training Configuration
+training:
+  batch_size: 4
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  num_epochs: 3
+  gradient_clip: 1.0
+  warmup_steps: 100
+  mixed_precision: true
+  num_seeds: 5
+  device: "cuda"
+
+# Dataset Configuration
+dataset:
+  name: "fake_real_news"  # Options: fake_real_news, fakenewsnet
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+  data_dir: "./data"
+  cache_dir: "./cache"
+  kaggle_dataset: "clmentbisaillon/fake-and-real-news-dataset"
+
+# Preprocessing Configuration
+preprocessing:
+  lowercase: true
+  remove_urls: true
+  remove_html: true
+  remove_emojis: true
+  remove_duplicates: true
+  augmentation:
+    synonym_substitution: true
+    max_synonyms: 3
+
+# Diffusion Modeling Configuration
+diffusion:
+  enabled: true
+  lstm_hidden_dim: 128
+  lstm_num_layers: 2
+  temporal_features: 10
+  normalize: true
+
+# Risk Modeling Configuration
+risk:
+  threshold: 0.5
+  gamma: 1.0  # Cost-benefit trade-off parameter
+
+# Evaluation Configuration
+evaluation:
+  metrics: ["accuracy", "precision", "recall", "f1", "roc_auc", "pr_auc"]
+  save_predictions: true
+  save_confusion_matrix: true
+  latency_samples: 500
+
+# Logging Configuration
+logging:
+  use_wandb: false
+  use_tensorboard: true
+  log_dir: "./logs"
+  experiment_name: "gbert_lite_experiment"
+  log_interval: 10
+
+# Paths
+paths:
+  checkpoint_dir: "./checkpoints"
+  results_dir: "./results"
+  plots_dir: "./plots"
